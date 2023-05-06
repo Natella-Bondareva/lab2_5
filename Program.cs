@@ -7,28 +7,33 @@
             public int hour, minute, second;
             public MyTime(int h, int m, int s)
             {
-                if (h<0)
-                //{
-                //    m = -m;
-                //    s = -s;
-                //}
-                if (s % 60 != 0 || (s % 60 == 0 && (s / 60 >= 1 || s / 60 <= -1) ))
-                {
-                    m += s / 60;
-                    s %= 60;
-                }
-                if (m % 60 != 0 || (m % 60 == 0 && (m / 60 >= 1 || m / 60 <= -1)))
-                {
-                    h += m / 60;
-                    m %= 60;
-                }
-                if (h > 23 || h<-23)
-                {
-                    h %= 24;
-                }
                 hour = h;
                 minute = m;
                 second = s;
+                if (hour<0)
+                {
+                    hour *= -1;
+
+                }
+                if (second % 60 != 0 || (second % 60 == 0 && (second / 60 >= 1 || second / 60 <= -1) ))
+                {
+                    minute += second / 60;
+                    second %= 60;
+                }
+                if (minute % 60 != 0 || (minute % 60 == 0 && (minute / 60 >= 1 || minute / 60 <= -1)))
+                {
+                    
+                    hour += minute / 60;
+                    minute %= 60;
+                }
+                if (hour > 23 || hour<-23)
+                {
+                    hour %= 24;
+                }
+                if(h<0)
+                {
+                    hour *= -1;
+                }
             }
             public override string ToString() => $"{hour:d2}:{minute:d2}:{second:d2}";
         };
