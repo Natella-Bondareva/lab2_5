@@ -7,12 +7,14 @@
             public int hour, minute, second;
             public MyTime(int h, int m, int s)
             {
+                bool check = false;
                 hour = h;
                 minute = m;
                 second = s;
                 if (hour<0)
                 {
                     hour *= -1;
+                    check = true;
 
                 }
                 if (second % 60 != 0 || (second % 60 == 0 && (second / 60 >= 1 || second / 60 <= -1) ))
@@ -30,12 +32,13 @@
                 {
                     hour %= 24;
                 }
-                if(h<0)
-                {
-                    hour *= -1;
-                }
             }
-            public override string ToString() => $"{hour:d2}:{minute:d2}:{second:d2}";
+            if (check)
+            {
+                public override string ToString() => $"{hour:d2}:{minute:d2}:{second:d2}";
+ 
+            }
+
         };
         static int TimeSinceMidnight(MyTime t)
         {
