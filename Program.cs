@@ -7,11 +7,6 @@
             public int hour, minute, second;
             public MyTime(int h, int m, int s)
             {
-                if (h<0)
-                //{
-                //    m = -m;
-                //    s = -s;
-                //}
                 if (s % 60 != 0 || (s % 60 == 0 && (s / 60 >= 1 || s / 60 <= -1) ))
                 {
                     m += s / 60;
@@ -56,13 +51,34 @@
         {
             return new MyTime(t.hour + 1, t.minute, t.second);
         }
+        static MyTime AddSeconds(MyTime t, int s)
+        {
+            return TimeSinceMidnight(TimeSinceMidnight(t) + s);
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("Введіть час у форматі hh:mm:ss :");
             string[] time = Console.ReadLine().Trim().Split(':');
-            MyTime mt = new MyTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
-            Console.WriteLine(TimeSinceMidnight(mt));
-            Console.WriteLine(AddOneSecond(mt));
+            if(Convert.ToInt32(time[0])<0 || Convert.ToInt32(time[1])<0 || Convert.ToInt32(time[2])<0)
+            {
+                Console.WriteLine("Ви ввели час в неправильному форматі, хіба час може бути від'ємним?!");
+            }
+            else
+            {
+                MyTime mt = new MyTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
+                Console.WriteLine("Нормалізований час:" + mt);
+                Console.WriteLine("Кількість секунд, що пройшли від початку доби: " + TimeSinceMidnight(mt));
+                Console.WriteLine("Кількість секунд, що пройшли від початку доби, у форматі часу: " + TimeSinceMidnight(TimeSinceMidnight(mt)));
+                Console.WriteLine("До вашого часу додана одна секунда: " + AddOneSecond(mt));
+                Console.WriteLine("До вашого часу додана одна хвилина: " + AddOneMinute(mt));
+                Console.WriteLine("До вашого часу додана одна година: " + AddOneHour(mt));
+                Console.WriteLine("Введіть кількість секунд яку ви хочете додати до вашого часу,\n або відняти (тоді введіть від'ємне число):");
+                int seconds =  int.Parse(Console.ReadLine());
+                Console.WriteLine("До вашого часу додано зазначена кількість секунд: " + AddSeconds(mt, seconds));
+
+            }
+
 
         }
     }
