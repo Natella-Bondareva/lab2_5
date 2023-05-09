@@ -53,9 +53,17 @@
         }
         static MyTime AddSeconds(MyTime t, int s)
         {
-            return TimeSinceMidnight(TimeSinceMidnight(t) + s);
+            int res = TimeSinceMidnight(t) + s;
+            Console.WriteLine("Проміжний результат: " + TimeSinceMidnight(res));
+            if (res < 0)
+            {
+                while (res < 0)
+                {
+                    res = 86400 + res;
+                }
+            }
+            return TimeSinceMidnight(res);
         }
-
         static void Main(string[] args)
         {
             Console.WriteLine("Введіть час у форматі hh:mm:ss :");
