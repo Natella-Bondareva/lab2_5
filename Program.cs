@@ -64,30 +64,127 @@
             }
             return TimeSinceMidnight(res);
         }
-        static void Main(string[] args)
+        static int Difference(MyTime mt1, MyTime mt2)
         {
+            int res = TimeSinceMidnight(mt1) - TimeSinceMidnight(mt2);
+            return res;
+        }
+        static string WhatLesson(MyTime mt)
+        {
+            int timeInSec = TimeSinceMidnight(mt);
+            if (timeInSec < TimeSinceMidnight(new MyTime(8, 0, 0)))
+            {
+                return "пари ще не почалися";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(8, 0, 0)) &&
+               timeInSec < TimeSinceMidnight(new MyTime(9, 20, 0)))
+            {
+                return "1-а пара";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(9, 20, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(9, 40, 0)))
+            {
+                return "перерва між 1-ю та 2-ю парами";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(9, 40, 0)) &&
+               timeInSec < TimeSinceMidnight(new MyTime(11, 0, 0)))
+            {
+                return "2-а пара";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(11, 0, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(11, 20, 0)))
+            {
+                return "перерва між 2-ю та 3-ю парою";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(11, 20, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(12, 40, 0)))
+            {
+                return "3-а пара";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(12, 40, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(13, 0, 0)))
+            {
+                return "перерва між 3-ю та 4-ю парою";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(13, 0, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(14, 20, 0)))
+            {
+                return "4-а пара";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(14, 20, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(14, 40, 0)))
+            {
+                return "перерва між 4-ю та 5-ю парою";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(14, 40, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(16, 00, 0)))
+            {
+                return "5-а пара";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(16, 0, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(16, 20, 0)))
+            {
+                return "перерва між 5-ю та 6-ю парою";
+            }
+
+            if (timeInSec >= TimeSinceMidnight(new MyTime(16, 20, 0)) &&
+                timeInSec < TimeSinceMidnight(new MyTime(17, 40, 0)))
+            {
+                return "6-а пара";
+            }
+
+            return "пари вже скінчилися";
+        }
+        static void Main(string[] args)
+        {            
             Console.WriteLine("Введіть час у форматі hh:mm:ss :");
-            string[] time = Console.ReadLine().Trim().Split(':');
-            if(Convert.ToInt32(time[0])<0 || Convert.ToInt32(time[1])<0 || Convert.ToInt32(time[2])<0)
-            {
-                Console.WriteLine("Ви ввели час в неправильному форматі, хіба час може бути від'ємним?!");
+            MyTime mt1 = new MyTime(0,0,0);
+            Input(ref mt1);
+            Console.WriteLine("Нормалізований час:" + mt1);
+            Console.WriteLine("Кількість секунд, що пройшли від початку доби: " + TimeSinceMidnight(mt1));
+            Console.WriteLine("Кількість секунд, що пройшли від початку доби, у форматі часу: " + TimeSinceMidnight(TimeSinceMidnight(mt1)));
+            Console.WriteLine("До вашого часу додана одна секунда: " + AddOneSecond(mt1));
+            Console.WriteLine("До вашого часу додана одна хвилина: " + AddOneMinute(mt1));
+            Console.WriteLine("До вашого часу додана одна година: " + AddOneHour(mt1));
+            Console.WriteLine("Введіть кількість секунд яку ви хочете додати до вашого часу,\n або відняти (тоді введіть від'ємне число):");
+            int seconds =  int.Parse(Console.ReadLine());
+            Console.WriteLine("До вашого часу додано зазначена кількість секунд: " + AddSeconds(mt1, seconds));
+            Console.WriteLine("Введіть час, який буде віднято від початкового часу:");
+            MyTime mt2 = new MyTime(0, 0, 0);
+            Input(ref mt2);
+            Console.WriteLine("Різницю між двома моментами: " + Difference(mt1, mt2));
+            MyTime SystemTime = new MyTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+            Console.WriteLine("Системний час: " + SystemTime);
+            Console.WriteLine("Різниця з системним часом: " + Difference(mt1, SystemTime));
+            Console.WriteLine("Тепер визначимо за розкладом, на яку пару потрапляє ваш початковий час:");
+            WhatLesson(mt1);
+        }
+        static void Input(ref MyTime mt)
+        {
+            bool b = true;
+            while(b) 
+            { 
+                string[] time = Console.ReadLine().Trim().Split(':');
+                if (Convert.ToInt32(time[0]) < 0 || Convert.ToInt32(time[1]) < 0 || Convert.ToInt32(time[2]) < 0)
+                {
+                    Console.WriteLine("Ви ввели час в неправильному форматі, хіба час може бути від'ємним?!\n Спробуйте ще раз =)");
+                }
+                else
+                {
+                    mt = new MyTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
+                    b = false;
+                }
             }
-            else
-            {
-                MyTime mt = new MyTime(Convert.ToInt32(time[0]), Convert.ToInt32(time[1]), Convert.ToInt32(time[2]));
-                Console.WriteLine("Нормалізований час:" + mt);
-                Console.WriteLine("Кількість секунд, що пройшли від початку доби: " + TimeSinceMidnight(mt));
-                Console.WriteLine("Кількість секунд, що пройшли від початку доби, у форматі часу: " + TimeSinceMidnight(TimeSinceMidnight(mt)));
-                Console.WriteLine("До вашого часу додана одна секунда: " + AddOneSecond(mt));
-                Console.WriteLine("До вашого часу додана одна хвилина: " + AddOneMinute(mt));
-                Console.WriteLine("До вашого часу додана одна година: " + AddOneHour(mt));
-                Console.WriteLine("Введіть кількість секунд яку ви хочете додати до вашого часу,\n або відняти (тоді введіть від'ємне число):");
-                int seconds =  int.Parse(Console.ReadLine());
-                Console.WriteLine("До вашого часу додано зазначена кількість секунд: " + AddSeconds(mt, seconds));
-
-            }
-
-
         }
     }
 }
