@@ -156,18 +156,20 @@
             Console.WriteLine("До вашого часу додана одна секунда: " + AddOneSecond(mt1));
             Console.WriteLine("До вашого часу додана одна хвилина: " + AddOneMinute(mt1));
             Console.WriteLine("До вашого часу додана одна година: " + AddOneHour(mt1));
-            Console.WriteLine("Введіть кількість секунд яку ви хочете додати до вашого часу,\n або відняти (тоді введіть від'ємне число):");
+            Console.WriteLine("Введіть кількість секунд яку ви хочете додати до вашого часу,\n " +
+                "або відняти (тоді введіть від'ємне число):");
             int seconds =  int.Parse(Console.ReadLine());
             Console.WriteLine("До вашого часу додано зазначена кількість секунд: " + AddSeconds(mt1, seconds));
             Console.WriteLine("Введіть час, який буде віднято від початкового часу:");
             MyTime mt2 = new MyTime(0, 0, 0);
             Input(ref mt2);
-            Console.WriteLine("Різницю між двома моментами: " + Difference(mt1, mt2));
+            Console.WriteLine($"Різницю між двома моментами у секундах: {Difference(mt1, mt2)} і у вигляді часу: " +
+                $"{TimeSinceMidnight(Difference(mt1, mt2))}");
             MyTime SystemTime = new MyTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             Console.WriteLine("Системний час: " + SystemTime);
-            Console.WriteLine("Різниця з системним часом: " + Difference(mt1, SystemTime));
+            Console.WriteLine("Різниця з системним часом: " + TimeSinceMidnight(Difference(mt1, SystemTime)));
             Console.WriteLine("Тепер визначимо за розкладом, на яку пару потрапляє ваш початковий час:");
-            WhatLesson(mt1);
+            Console.WriteLine(WhatLesson(mt1)); 
         }
         static void Input(ref MyTime mt)
         {
