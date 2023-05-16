@@ -1,8 +1,8 @@
 ﻿namespace лаба2_5
 {
-    internal class Program
+    public class Time
     {
-        struct MyTime
+        public struct MyTime
         {
             public int hour, minute, second;
             public MyTime(int h, int m, int s)
