@@ -27,31 +27,31 @@
             }
             public override string ToString() => $"{hour:d2}:{minute:d2}:{second:d2}";
         };
-        static int TimeSinceMidnight(MyTime t)
+        public static int TimeSinceMidnight(MyTime t)
         {
             int seconds = t.hour* 3600 + t.minute*60 + t.second;
             return seconds;
         }
-        static MyTime TimeSinceMidnight(int t)
+        public static MyTime TimeSinceMidnight(int t)
         {
             int seconds = t % 60;
             int minutes = (t / 60) % 60;
             int hours = (t / 3600) % 24;
             return new MyTime(hours, minutes, seconds);
         }
-        static MyTime AddOneSecond(MyTime t)
+        public static MyTime AddOneSecond(MyTime t)
         {
             return new MyTime(t.hour, t.minute, t.second + 1);
         }
-        static MyTime AddOneMinute(MyTime t)
+        public static MyTime AddOneMinute(MyTime t)
         {
             return new MyTime(t.hour, t.minute + 1, t.second);
         }
-        static MyTime AddOneHour(MyTime t)
+        public static MyTime AddOneHour(MyTime t)
         {
             return new MyTime(t.hour + 1, t.minute, t.second);
         }
-        static MyTime AddSeconds(MyTime t, int s)
+        public static MyTime AddSeconds(MyTime t, int s)
         {
             int res = TimeSinceMidnight(t) + s;
             Console.WriteLine("Проміжний результат: " + TimeSinceMidnight(res));
@@ -64,12 +64,12 @@
             }
             return TimeSinceMidnight(res);
         }
-        static int Difference(MyTime mt1, MyTime mt2)
+        public static int Difference(MyTime mt1, MyTime mt2)
         {
             int res = TimeSinceMidnight(mt1) - TimeSinceMidnight(mt2);
             return res;
         }
-        static string WhatLesson(MyTime mt)
+        public static string WhatLesson(MyTime mt)
         {
             int timeInSec = TimeSinceMidnight(mt);
             if (timeInSec < TimeSinceMidnight(new MyTime(8, 0, 0)))
@@ -145,7 +145,7 @@
 
             return "пари вже скінчилися";
         }
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {            
             Console.WriteLine("Введіть час у форматі hh:mm:ss :");
             MyTime mt1 = new MyTime(0,0,0);
@@ -171,7 +171,7 @@
             Console.WriteLine("Тепер визначимо за розкладом, на яку пару потрапляє ваш початковий час:");
             Console.WriteLine(WhatLesson(mt1)); 
         }
-        static void Input(ref MyTime mt)
+        public static void Input(ref MyTime mt)
         {
             bool b = true;
             while(b) 
