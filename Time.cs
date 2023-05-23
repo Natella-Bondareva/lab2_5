@@ -54,7 +54,7 @@
         public static MyTime AddSeconds(MyTime t, int s)
         {
             int res = TimeSinceMidnight(t) + s;
-            Console.WriteLine("Проміжний результат: " + TimeSinceMidnight(res));
+
             if (res < 0)
             {
                 while (res < 0)
@@ -164,10 +164,11 @@
             MyTime mt2 = new MyTime(0, 0, 0);
             Input(ref mt2);
             Console.WriteLine($"Різницю між двома моментами у секундах: {Difference(mt1, mt2)} і у вигляді часу: " +
-                $"{TimeSinceMidnight(Difference(mt1, mt2))}");
+                $"{AddSeconds(mt1, -TimeSinceMidnight(mt2))}");
             MyTime SystemTime = new MyTime(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
             Console.WriteLine("Системний час: " + SystemTime);
-            Console.WriteLine("Різниця з системним часом: " + TimeSinceMidnight(Difference(mt1, SystemTime)));
+            Console.WriteLine($"Різниця з системним часом у секундах: {Difference(mt1, SystemTime)} і у вигляді часу:" +
+                $"{AddSeconds(mt1, -TimeSinceMidnight(SystemTime))}");
             Console.WriteLine("Тепер визначимо за розкладом, на яку пару потрапляє ваш початковий час:");
             Console.WriteLine(WhatLesson(mt1)); 
         }
